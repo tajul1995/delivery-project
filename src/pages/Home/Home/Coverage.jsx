@@ -60,6 +60,7 @@ const Coverage = () => {
             type="text"
             placeholder="Search region..."
             className="input input-bordered w-full"
+            defaultValue='Dhaka'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -77,7 +78,7 @@ const Coverage = () => {
         </div>
 
         {/* Dropdown with all regions */}
-        <ul className="absolute left-0 right-0 bg-base-100 border rounded-lg shadow-md mt-1  max-h-56 overflow-y-auto z-10 mb-12">
+        <ul className="absolute left-0 right-0 bg-base-100 border rounded-lg shadow-md mt-1   overflow-y-auto z-10 mb-12">
           {filteredRegions.map((region, idx) => (
             <li
               key={idx}

@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layout/RootLayout";
 import Home from "../pages/Home/Home/Home";
 import Coverage from "../pages/Home/Home/Coverage";
+import SendAParcel from "../pages/SendAParcel/SendAParcel";
 
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
         {
           path:'/coverage',
           element:<Coverage></Coverage>
+        },
+        {
+          path:'/parcelSend',
+          element:<SendAParcel></SendAParcel>
         }
     ]
   },

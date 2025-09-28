@@ -6,7 +6,7 @@ const Navbar = () => {
     const navitems=<>
     <li><NavLink>SERVICES</NavLink></li>
     <li><NavLink to='/coverage'>COVERAGE</NavLink></li>
-    <li><NavLink>SEND A PARCEL</NavLink></li>
+    <li><NavLink to='/parcelSend'>SEND A PARCEL</NavLink></li>
         
     
     </>
