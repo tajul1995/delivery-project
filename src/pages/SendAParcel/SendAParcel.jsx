@@ -46,11 +46,40 @@ const SendAParcel = () => {
   }, [receiverInfo.region]);
 
   // Cost calculation (dummy logic)
-  const calculateCost = () => {
-    let base = parcelInfo.type === "document" ? 50 : 100;
-    const weightCost = parcelInfo.type === "non-document" ? Number(parcelInfo.weight || 0) * 10 : 0;
-    return base + weightCost;
-  };
+  const calculateCostBreakdown = () => {
+  const { type, weight } = parcelInfo;
+  const senderCity = senderInfo.region; // Simplified, can use city/district
+  const receiverCity = receiverInfo.region;
+
+  const withinCity = senderCity === receiverCity;
+
+  let baseCost = 0;
+//   let extraCost = 0;
+  let breakdown = "";
+
+  if (type === "document") {
+    baseCost = withinCity ? 60 : 80;
+    breakdown = `Parcel Type: Document\nBase Cost: ৳${baseCost}\nWithin City: ${withinCity ? "Yes" : "No"}`;
+  } else {
+    const w = Number(weight || 0);
+    if (w <= 3) {
+      baseCost = withinCity ? 110 : 150;
+      breakdown = `Parcel Type: Non-Document\nWeight: ${w}kg\nBase Cost: ৳${baseCost}`;
+    } else {
+      const extraKg = w - 3;
+      if (withinCity) {
+        baseCost = 110 + extraKg * 40;
+        breakdown = `Parcel Type: Non-Document\nWeight: ${w}kg (3kg included in base)\nBase Cost: ৳110 + Extra for ${extraKg}kg: ৳${extraKg * 40}\nTotal: ৳${baseCost}`;
+      } else {
+        baseCost = 150 + extraKg * 40 + 40; // extra 40
+        breakdown = `Parcel Type: Non-Document\nWeight: ${w}kg (3kg included in base)\nBase Cost: ৳150 + Extra for ${extraKg}kg: ৳${extraKg * 40} + Extra Outside City: ৳40\nTotal: ৳${baseCost}`;
+      }
+    }
+  }
+
+  return { cost: baseCost, breakdown };
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,53 +104,35 @@ const SendAParcel = () => {
       return;
     }
 
-    const cost = calculateCost();
-
-    Swal.fire({
-      title: "Confirm Delivery Cost",
-      text: `Your delivery cost is: ${cost} BDT. Do you want to confirm?`,
-      icon: "info",
-      showCancelButton: true,
-      confirmButtonText: "Confirm",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Send data to backend
-        fetch("http://localhost:5000/parcels", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            parcelInfo,
-            senderInfo,
-            receiverInfo,
-            creation_date: new Date(),
-            trackingData: { status: "Created" },
-          }),
-        })
-          .then((res) => res.json())
-          .then(() => {
-            Swal.fire("Success", "Parcel created successfully!", "success");
-            // Reset form
-            setParcelInfo({ type: "document", title: "", weight: "" });
-            setSenderInfo({
-              name: "",
-              contact: "",
-              region: "",
-              serviceCenter: "",
-              address: "",
-              pickupInstruction: "",
-            });
-            setReceiverInfo({
-              name: "",
-              contact: "",
-              region: "",
-              serviceCenter: "",
-              address: "",
-              deliveryInstruction: "",
-            });
-          });
-      }
-    });
-  };
+    const { cost, breakdown } = calculateCostBreakdown();
+        Swal.fire({
+  title: "Delivery Cost Breakdown",
+  html: `<pre class="text-left">${breakdown}</pre>`,
+  icon: "info",
+  showCancelButton: true,
+  confirmButtonText: "Confirm",
+}).then((result) => {
+  if (result.isConfirmed) {
+    // Save parcel to backend
+    fetch("http://localhost:5000/parcels", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        parcelInfo,
+        senderInfo,
+        receiverInfo,
+        creation_date: new Date(),
+        cost,
+        trackingData: { status: "Created" },
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        Swal.fire("Success", "Parcel created successfully!", "success");
+      });
+  }
+});
+      };
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -312,7 +323,7 @@ const SendAParcel = () => {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary w-full">
           Submit
         </button>
       </form>
