@@ -1,5 +1,7 @@
 import Banner from "../Banner"
 import WorkingSection from "../WorkingSection"
+import CustomerReviews from "./CustomerReviews"
+import FixedBanner from "./FixedBanner"
 import MarqueeSection from "./MarqueeSection"
 import ServicesSection from "./ServicesSection"
 
@@ -12,6 +14,8 @@ const Home = () => {
       <WorkingSection></WorkingSection>
       <ServicesSection></ServicesSection>
       <MarqueeSection></MarqueeSection>
+      <FixedBanner></FixedBanner>
+      <CustomerReviews></CustomerReviews>
     </div>
   )
 }

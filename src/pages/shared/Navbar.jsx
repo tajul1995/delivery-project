@@ -5,7 +5,7 @@ import ProFast from "../../components/ProFast"
 const Navbar = () => {
     const navitems=<>
     <li><NavLink>SERVICES</NavLink></li>
-    <li><NavLink>COVERAGE</NavLink></li>
+    <li><NavLink to='/coverage'>COVERAGE</NavLink></li>
     <li><NavLink>SEND A PARCEL</NavLink></li>
         
     

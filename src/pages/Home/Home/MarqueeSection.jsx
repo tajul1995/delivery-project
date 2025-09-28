@@ -11,7 +11,7 @@ import img6 from "../../../assets/brands/start.png"
 const MarqueeSection = () => {
   return (
     <>
-<Marquee className="bg-amber-200 p-6">
+<Marquee className="bg-linear-to-r from-cyan-500 to-blue-500 p-6">
         <div className="flex gap-14 p-4">
           <div>
           <img src={img1} alt="" srcset="" />
