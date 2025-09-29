@@ -1,13 +1,22 @@
 import { NavLink } from "react-router-dom"
 import ProFast from "../../components/ProFast"
+import useAuth from "../Hooks/useAuth"
 
 
 const Navbar = () => {
+
+  const {user}=useAuth()
+  
     const navitems=<>
     <li><NavLink>SERVICES</NavLink></li>
     <li><NavLink to='/coverage'>COVERAGE</NavLink></li>
     <li><NavLink to='/parcelSend'>SEND A PARCEL</NavLink></li>
-        
+    {
+      user&& <>
+      <li><NavLink to='/dashboard'>DASHBOARD</NavLink></li>
+      
+      </>
+    } 
     
     </>
        

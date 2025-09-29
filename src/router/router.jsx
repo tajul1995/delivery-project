@@ -6,6 +6,7 @@ import SendAParcel from "../pages/SendAParcel/SendAParcel";
 import AuthLayout from "../layout/AuthLayout";
 import Login from "../pages/AuthComponents/Login";
 import Register from "../pages/AuthComponents/Register";
+import DashBoard from "../layout/DashBoard";
 
 
 const router = createBrowserRouter([
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   
   ]
     
+  },
+  {
+    path:'/dashboard',
+    Component:DashBoard
   }
 ]);
 

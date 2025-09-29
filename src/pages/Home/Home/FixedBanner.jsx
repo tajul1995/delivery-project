@@ -11,7 +11,7 @@ const FixedBanner = () => {
     />
     <div className='flex flex-col items-start justify-between  '>
       <h1 className="text-2xl text-[#CAEB66] font-bold">Merchant and Customer Satisfaction is Our First Priority</h1>
-      <p class name className='my-7'>
+      <p  className='my-7'>
         We offer the lowest delivery charge with the highest value along with 100% safety of your product. Pathao courier delivers your parcels in every corner of Bangladesh right on time.
       </p>
       <div>

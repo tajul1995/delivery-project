@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { useState } from 'react'
 import useAuth from '../Hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     const [error,setError]=useState('')
