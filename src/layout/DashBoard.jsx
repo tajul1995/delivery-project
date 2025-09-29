@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import {  Outlet } from "react-router-dom"
 
 
 const DashBoard = () => {
@@ -26,13 +26,7 @@ const DashBoard = () => {
         </label>
       </div>
       <div className="mx-2 flex-1 px-2">Navbar Title</div>
-      <div className="hidden flex-none lg:block">
-        <ul className="menu menu-horizontal">
-          {/* Navbar menu content here */}
-          {/* <li><a>Navbar Item 1</a></li>
-          <li><a>Navbar Item 2</a></li> */}
-        </ul>
-      </div>
+      
     </div>
     {/* Page content here */}
     <Outlet></Outlet>
@@ -41,6 +35,7 @@ const DashBoard = () => {
     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
       {/* Sidebar content here */}
+      
       <li><a>Sidebar Item 1</a></li>
       <li><a>Sidebar Item 2</a></li>
     </ul>

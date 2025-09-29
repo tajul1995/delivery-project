@@ -7,6 +7,7 @@ import AuthLayout from "../layout/AuthLayout";
 import Login from "../pages/AuthComponents/Login";
 import Register from "../pages/AuthComponents/Register";
 import DashBoard from "../layout/DashBoard";
+import MyParcels from "../DashBoard/MyParcels";
 
 
 const router = createBrowserRouter([
@@ -47,7 +48,14 @@ const router = createBrowserRouter([
   },
   {
     path:'/dashboard',
-    Component:DashBoard
+    Component:DashBoard,
+    children:[
+      {
+        path:'myparcels',
+        Component:MyParcels
+      }
+    ]
+    
   }
 ]);
 

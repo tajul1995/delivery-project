@@ -5,9 +5,12 @@ import Swal from "sweetalert2";
 // Your full data
 import locationsData from "../../assets/warehouses.json"; // save your JSON as locationsData.json
 import useAxiousSecure from "../Hooks/useAxiousSecure";
+import useAuth from "../Hooks/useAuth";
 
 const SendAParcel = () => {
   const axiousSecure =useAxiousSecure()
+  const {user}=useAuth()
+  
   const [parcelInfo, setParcelInfo] = useState({
     type: "document",
     title: "",
@@ -128,10 +131,11 @@ const SendAParcel = () => {
           totalCost: total,
           trackingId,
           creation_date: new Date(),
+          senderEmail:user.email
         };
 
         axiousSecure
-          .post('/parcels', dataToSend)
+          .post('/allparcels', dataToSend)
           .then((res) => {
             console.log(res.data)
             Swal.fire("Success!", `Parcel saved! Tracking ID: ${trackingId}`, "success");
