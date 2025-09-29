@@ -3,27 +3,47 @@ import RootLayout from "../layout/RootLayout";
 import Home from "../pages/Home/Home/Home";
 import Coverage from "../pages/Home/Home/Coverage";
 import SendAParcel from "../pages/SendAParcel/SendAParcel";
+import AuthLayout from "../layout/AuthLayout";
+import Login from "../pages/AuthComponents/Login";
+import Register from "../pages/AuthComponents/Register";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout></RootLayout>,
+    Component:RootLayout,
     children:[
         {
-            path:'/',
-            element:<Home></Home>,
+            index:true,
+            Component:Home,
         },
         {
-          path:'/coverage',
-          element:<Coverage></Coverage>
+          path:'coverage',
+          Component:Coverage,
         },
         {
-          path:'/parcelSend',
-          element:<SendAParcel></SendAParcel>
+          path:'parcelSend',
+          Component:SendAParcel
         }
     ]
   },
+  {
+    path:'/',
+    Component:AuthLayout,
+    children:[{
+      path:'login',
+      Component:Login,
+    },
+    {
+      path:'register',
+      Component:Register,
+    }
+  
+  
+  
+  ]
+    
+  }
 ]);
 
 export default router
