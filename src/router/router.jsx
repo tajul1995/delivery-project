@@ -8,6 +8,8 @@ import Login from "../pages/AuthComponents/Login";
 import Register from "../pages/AuthComponents/Register";
 import DashBoard from "../layout/DashBoard";
 import MyParcels from "../DashBoard/MyParcels";
+import PrivateRoute from "../routes/PrivateRoute";
+import Payment from "../DashBoard/Payment";
 
 
 const router = createBrowserRouter([
@@ -25,7 +27,7 @@ const router = createBrowserRouter([
         },
         {
           path:'parcelSend',
-          Component:SendAParcel
+          element:<PrivateRoute><SendAParcel></SendAParcel></PrivateRoute>
         }
     ]
   },
@@ -48,11 +50,15 @@ const router = createBrowserRouter([
   },
   {
     path:'/dashboard',
-    Component:DashBoard,
+    element:<PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
     children:[
       {
         path:'myparcels',
         Component:MyParcels
+      },
+      {
+        path:'payment/:id',
+        Component:Payment
       }
     ]
     

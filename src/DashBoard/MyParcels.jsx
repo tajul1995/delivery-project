@@ -2,11 +2,13 @@ import { useQuery } from "@tanstack/react-query"
 import useAuth from "../pages/Hooks/useAuth"
 import useAxiousSecure from "../pages/Hooks/useAxiousSecure"
 import Swal from "sweetalert2"
+import { useNavigate } from "react-router-dom"
 
 
 const MyParcels = () => {
     const {user}=useAuth()
     console.log(user.email)
+    const navigate = useNavigate()
     const  axiousSecure= useAxiousSecure()
     const {data:parcels=[],isLoading,refetch} = useQuery({
         queryKey:['parcels', !!user?.email],
@@ -53,8 +55,9 @@ const onDelete=(id)=>{
       }
     });
 }
-const onPay=(cost)=>{
-  console.log(cost)
+const onPay=(id)=>{
+  console.log(id)
+  navigate(`/dashboard/payment/${id}`)
 }
 
   return (
@@ -103,7 +106,7 @@ const onPay=(cost)=>{
                 </button>
                 <button
                   className="btn btn-sm btn-error"
-                  onClick={() => onPay(parcel.totalCost)}
+                  onClick={() => onPay(parcel._id)}
                 >
                   Pay
                 </button>

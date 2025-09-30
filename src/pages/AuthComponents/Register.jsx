@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../Hooks/useAuth"
 
 const Register = () => {
     const { creatUser, signInWithGoogle}=useAuth()
     const [error,setError]=useState('')
+    const location = useLocation()
+    const navigate = useNavigate()
+    const from = location.state?.from || '/'
   const {
     register,
     formState: { errors },
@@ -14,7 +17,11 @@ const Register = () => {
   } = useForm()
   const googleSignIn =()=>{
     signInWithGoogle()
-    .then(res=>console.log(res.user))
+    .then(res=>{
+      if(res.user){
+        return navigate(from)
+      }
+    })
   }
   const onSubmit = (data) => {
     creatUser(data.email,data.password)
@@ -22,6 +29,9 @@ const Register = () => {
     // Signed up 
     const user = userCredential.user;
     console.log(user)
+    if(user){
+      return navigate(from)
+    }
     // ...
   })
   .catch((error) => {
