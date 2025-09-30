@@ -1,19 +1,62 @@
 import { useQuery } from "@tanstack/react-query"
 import useAuth from "../pages/Hooks/useAuth"
 import useAxiousSecure from "../pages/Hooks/useAxiousSecure"
+import Swal from "sweetalert2"
 
 
 const MyParcels = () => {
     const {user}=useAuth()
-    const axiousSecure = useAxiousSecure()
-    const {data:parcels=[]} = useQuery({
-        queryKey:['parcels', user?.email],
+    console.log(user.email)
+    const  axiousSecure= useAxiousSecure()
+    const {data:parcels=[],isLoading,refetch} = useQuery({
+        queryKey:['parcels', !!user?.email],
         queryFn:async ()=>{
             const res = await axiousSecure.get(`/allparcels?email=${user.email}`)
             return res.data
         }
     })
-    const alldata=parcels.parcels
+    if (isLoading) {
+  return<span className="loading loading-ring loading-xl"></span>
+}
+
+    console.log(parcels)
+    const alldata=parcels?.parcels
+    console.log(alldata)
+const onView=(parcel)=>{
+  
+  Swal.fire({
+      title: "Parcel Details",
+      html: `<pre style="text-align:left">${JSON.stringify(parcel, null, 2)}</pre>`,
+      confirmButtonText: "Close",
+    });
+}
+const onDelete=(id)=>{
+  
+  Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t be able to recover this parcel after deleting!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiousSecure.delete(`/allparcels/${id}`)
+        .then(res=>{
+          if(res.data.deletedCount){
+            refetch()
+            Swal.fire("Deleted!", "The parcel has been deleted.", "success");
+          }
+        })
+        
+      }
+    });
+}
+const onPay=(cost)=>{
+  console.log(cost)
+}
+
   return (
      <div className=" w-full">
       <table className="table w-full">
@@ -60,9 +103,9 @@ const MyParcels = () => {
                 </button>
                 <button
                   className="btn btn-sm btn-error"
-                  onClick={() => onDelete(parcel.totalCost)}
+                  onClick={() => onPay(parcel.totalCost)}
                 >
-                  Delete
+                  Pay
                 </button>
               </td>
             </tr>

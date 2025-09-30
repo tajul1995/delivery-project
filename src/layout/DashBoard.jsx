@@ -37,7 +37,7 @@ const DashBoard = () => {
       {/* Sidebar content here */}
       
       <li><NavLink to='/dashboard/myparcels'>myParcels</NavLink></li>
-      <li><a>Sidebar Item 2</a></li>
+      <li><NavLink to='/'>HOME</NavLink></li>
     </ul>
   </div>
 </div>
