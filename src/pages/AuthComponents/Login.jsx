@@ -3,11 +3,14 @@ import { useForm } from 'react-hook-form'
 
 import { useState } from 'react'
 import useAuth from '../Hooks/useAuth'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const [error,setError]=useState('')
     const { signInUser, signInWithGoogle}=useAuth()
+    const location = useLocation()
+    const navigate = useNavigate()
+    const from = location.state?.from || '/'
     const {
     register,
     formState: { errors },
@@ -23,6 +26,7 @@ const Login = () => {
     // Signed in 
     const user = userCredential.user;
     console.log(user)
+    navigate(from)
   })
   .catch((error) => {
     const errorCode = error.code;
