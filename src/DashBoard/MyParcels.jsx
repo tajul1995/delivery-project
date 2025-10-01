@@ -61,8 +61,8 @@ const onPay=(id)=>{
 }
 
   return (
-     <div className=" w-full">
-      <table className="table w-full">
+     <div >
+      <table className="table ">
         <thead>
           <tr className="bg-base-200">
             <th>Sender</th>
@@ -75,7 +75,7 @@ const onPay=(id)=>{
         </thead>
 
         <tbody 
-            className="w-full"
+            
           
         >
           {alldata.map((parcel) => (

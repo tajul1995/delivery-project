@@ -1,4 +1,6 @@
 import {  NavLink, Outlet } from "react-router-dom"
+import ProFast from "../components/ProFast"
+import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit } from "react-icons/fa";
 
 
 const DashBoard = () => {
@@ -35,9 +37,71 @@ const DashBoard = () => {
     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
       {/* Sidebar content here */}
+      <ProFast></ProFast>
+       <ul className="flex flex-col gap-4 p-4 w-60 bg-base-200 min-h-screen">
+      <li>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+              isActive ? "bg-primary text-white" : ""
+            }`
+          }
+        >
+          <FaHome /> HOME
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/myparcels"
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+              isActive ? "bg-primary text-white" : ""
+            }`
+          }
+        >
+          <FaBox /> My Parcels
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/payments"
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+              isActive ? "bg-primary text-white" : ""
+            }`
+          }
+        >
+          <FaMoneyBillWave /> Payment History
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/track"
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black${
+              isActive ? "bg-primary text-white" : ""
+            }`
+          }
+        >
+          <FaSearchLocation /> Track a Parcel
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/update"
+          className={({ isActive }) =>
+            `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+              isActive ? "bg-primary text-white" : ""
+            }`
+          }
+        >
+          <FaUserEdit /> Update Profile
+        </NavLink>
+      </li>
+    </ul>
+
       
-      <li><NavLink to='/dashboard/myparcels'>myParcels</NavLink></li>
-      <li><NavLink to='/'>HOME</NavLink></li>
     </ul>
   </div>
 </div>

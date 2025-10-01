@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')).render(
     <div className='font-urbanist max-w-7xl mx-auto'>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <RouterProvider router={router} />
+          <RouterProvider router={router}  />
         </AuthProvider>
       </QueryClientProvider>
     </div>
