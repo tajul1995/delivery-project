@@ -3,12 +3,16 @@ import { useForm } from "react-hook-form"
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../Hooks/useAuth"
+import axios from "axios"
+import useAxiousPublice from "../Hooks/useAxiousPublice"
 
 const Register = () => {
-    const { creatUser, signInWithGoogle}=useAuth()
+    const { creatUser, signInWithGoogle,userUpdated}=useAuth()
     const [error,setError]=useState('')
     const location = useLocation()
     const navigate = useNavigate()
+    const axiousPublice=useAxiousPublice()
+    const [profilePic,setProfilePic]=useState("")
     const from = location.state?.from || '/'
   const {
     register,
@@ -17,18 +21,47 @@ const Register = () => {
   } = useForm()
   const googleSignIn =()=>{
     signInWithGoogle()
-    .then(res=>{
+    .then(async(res)=>{
+      const user = res.user
       if(res.user){
         return navigate(from)
       }
+      const infoUser ={
+        email:user.email,
+        role:'user',
+        create_at:new Date().toISOString(),
+        last_login:new Date().toISOString()
+      }
+      const userRes = await axiousPublice.post('/users',infoUser)
+      console.log(userRes.data)
+      
     })
   }
   const onSubmit = (data) => {
     creatUser(data.email,data.password)
-    .then((userCredential) => {
+    .then(async(userCredential) => {
     // Signed up 
     const user = userCredential.user;
     console.log(user)
+      const userInfo={
+        email:data.email,
+        role:'user',
+        create_at:new Date().toISOString(),
+        last_login:new Date().toISOString()
+      }
+      const userRes = await axiousPublice.post('/users',userInfo)
+      console.log(userRes.data)
+
+
+
+    const profileInfo={
+      displayName:data.name,
+      photoURL:profilePic
+    }
+    userUpdated(profileInfo)
+    .then(()=>{
+      console.log('user profile updated')
+    })
     if(user){
       return navigate(from)
     }
@@ -42,11 +75,31 @@ const Register = () => {
   });
 
   }
+  const handleImageUpload = async(e)=>{
+    const image = e.target.files[0]
+    console.log(image)
+    const formData = new FormData()
+    formData.append('image',image)
+    const res = await axios.post('https://api.imgbb.com/1/upload?key=9d3ef66d4afc7536d58b84bc32889093',formData)
+    setProfilePic(res.data.data.display_url)
+
+  }
   
   return (
     < >
         <form onSubmit={handleSubmit(onSubmit)} className="fieldset p-10 ">
-          <label className="label">Email</label>
+          
+          <label className="label">Name</label>
+          <p className="text-red-500 font-bold">{error}</p>
+          <input type="text" className="input" placeholder="YOUR NAME" {...register("name", { required: true })} />
+          {errors.name?.type === "required" && (
+        <p className="text-red-500 font-bold">name  is required</p>
+      )}
+      <label className="label">profile picture</label>
+          <p className="text-red-500 font-bold">{error}</p>
+          <input type="file" className="input"  onChange={handleImageUpload} placeholder="YOUR picture"  />
+          
+      <label className="label">Email</label>
           <p className="text-red-500 font-bold">{error}</p>
           <input type="email" className="input" placeholder="Email" {...register("email", { required: true })} />
           {errors.email?.type === "required" && (
