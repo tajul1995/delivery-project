@@ -1,6 +1,6 @@
 import {  NavLink, Outlet } from "react-router-dom"
 import ProFast from "../components/ProFast"
-import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit } from "react-icons/fa";
+import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf } from "react-icons/fa";
 
 
 const DashBoard = () => {
@@ -99,6 +99,32 @@ const DashBoard = () => {
           <FaUserEdit /> Update Profile
         </NavLink>
       </li>
+      <li>
+  <NavLink
+    to="/dashboard/activeRider"
+    className={({ isActive }) =>
+      `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+        isActive ? "bg-primary text-white" : ""
+      }`
+    }
+  >
+    <FaUserCheck /> Active Rider
+  </NavLink>
+</li>
+
+{/* ✅ New Pending Rider link */}
+<li>
+  <NavLink
+    to="/dashboard/pendingRider"
+    className={({ isActive }) =>
+      `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+        isActive ? "bg-primary text-white" : ""
+      }`
+    }
+  >
+    <FaHourglassHalf /> Pending Rider
+  </NavLink>
+</li>
     </ul>
 
       

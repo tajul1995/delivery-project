@@ -11,6 +11,8 @@ import MyParcels from "../DashBoard/MyParcels";
 import PrivateRoute from "../routes/PrivateRoute";
 import Payment from "../DashBoard/Payment";
 import PaymentsHistory from "../DashBoard/PaymentsHistory";
+import BeARider from "../DashBoard/BeARider";
+import PendingRider from "../DashBoard/PendingRider";
 
 
 const router = createBrowserRouter([
@@ -25,6 +27,11 @@ const router = createBrowserRouter([
         {
           path:'coverage',
           Component:Coverage,
+        },
+        {
+          path:'beARider',
+          element:<PrivateRoute><BeARider></BeARider></PrivateRoute>
+
         },
         {
           path:'parcelSend',
@@ -63,6 +70,10 @@ const router = createBrowserRouter([
       },{
         path:'payments',
         Component:PaymentsHistory
+      },
+      {
+        path:'pendingRider',
+        Component:PendingRider
       }
     ]
     
