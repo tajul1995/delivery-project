@@ -57,7 +57,29 @@ const onDelete=(id)=>{
 }
 const onPay=(id)=>{
   console.log(id)
-  navigate(`/dashboard/payment/${id}`)
+  Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t pay!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, pay it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+         navigate(`/dashboard/payment/${id}`)
+        axiousSecure.put(`/allparcels/${id}`)
+        .then(res=>{
+          if(res.data){
+            refetch()
+            Swal.fire("sucessful!", "The parcel has been paid.", "success");
+           
+          }
+        })
+        
+      }
+    });
+  
 }
 
   return (
@@ -85,7 +107,7 @@ const onPay=(id)=>{
               <td>{parcel.parcelInfo.title}</td>
               <td>tk{parcel.totalCost}</td>
               <td>
-                {parcel.paymentStatus === "paid" ? (
+                {parcel.Payment_Status === "paid" ? (
                   <span className="badge badge-success">Paid</span>
                 ) : (
                   <span className="badge badge-error">Unpaid</span>
@@ -104,12 +126,13 @@ const onPay=(id)=>{
                 >
                   Delete
                 </button>
-                <button
+                {parcel.Payment_Status === "paid" ?"": <button
                   className="btn btn-sm btn-error"
                   onClick={() => onPay(parcel._id)}
                 >
                   Pay
-                </button>
+                </button> }
+                
               </td>
             </tr>
           ))}

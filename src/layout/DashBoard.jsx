@@ -1,9 +1,12 @@
 import {  NavLink, Outlet } from "react-router-dom"
 import ProFast from "../components/ProFast"
 import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf } from "react-icons/fa";
+import useUserRole from "../pages/Hooks/useUserRole";
 
 
 const DashBoard = () => {
+  const {role}=useUserRole()
+  console.log(role)
   return (
     <div className="drawer lg:drawer-open ">
   <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -123,6 +126,18 @@ const DashBoard = () => {
     }
   >
     <FaHourglassHalf /> Pending Rider
+  </NavLink>
+</li>
+<li>
+  <NavLink
+    to="/dashboard/admin"
+    className={({ isActive }) =>
+      `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+        isActive ? "bg-primary text-white" : ""
+      }`
+    }
+  >
+    <FaHourglassHalf /> MAKE A ADMION
   </NavLink>
 </li>
     </ul>

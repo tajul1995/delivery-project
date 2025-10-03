@@ -35,7 +35,7 @@ if(isPending){
   //   };
   //   fetchPendingRiders();
   // }, [axiousSecure]);
-  const handleApprove = async (id) => {
+  const handleApprove = async (id,email) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "You want to approve this rider?",
@@ -45,9 +45,10 @@ if(isPending){
     });
 
     if (confirm.isConfirmed) {
-      await axiousSecure.patch(`/riders/${id}/approve`);
-      Swal.fire("Approved!", "Rider has been approved.", "success");
+      await axiousSecure.patch(`/riders/${id}/approve`,{email});
       refetch()
+      Swal.fire("Approved!", "Rider has been approved.", "success");
+      
     }
   };
 
@@ -62,8 +63,9 @@ const handleCancel = async (id) => {
 
     if (confirm.isConfirmed) {
       await axiousSecure.patch(`/riders/${id}/cancel`);
-      Swal.fire("Cancelled!", "Rider has been cancelled.", "success");
       refetch()
+      Swal.fire("Cancelled!", "Rider has been cancelled.", "success");
+      
     }
   };
 
@@ -101,7 +103,7 @@ const handleCancel = async (id) => {
                   {/* Approve */}
                   <button
                     className="btn btn-sm btn-success"
-                    onClick={() => handleApprove(rider._id)}
+                    onClick={() => handleApprove(rider._id,rider.email)}
                   >
                     Approve
                   </button>

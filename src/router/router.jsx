@@ -14,6 +14,7 @@ import PaymentsHistory from "../DashBoard/PaymentsHistory";
 import BeARider from "../DashBoard/BeARider";
 import PendingRider from "../DashBoard/PendingRider";
 import ActiveRiders from "../DashBoard/ActiveRiders";
+import AdminManagement from "../DashBoard/AdminManagement";
 
 
 const router = createBrowserRouter([
@@ -79,6 +80,9 @@ const router = createBrowserRouter([
       {
         path:'activeRider',
         Component:ActiveRiders
+      },{
+        path:'admin',
+        Component:AdminManagement
       }
     ]
     
