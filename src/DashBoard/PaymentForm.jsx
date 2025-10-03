@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAxiousSecure from "../pages/Hooks/useAxiousSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../pages/Hooks/useAuth";
+import Swal from "sweetalert2";
 
 
 const PaymentForm = () => {
@@ -14,10 +15,11 @@ const PaymentForm = () => {
   const axiousSecure = useAxiousSecure()
   const {user}=useAuth()
   const {id}=useParams()
+  
 
   const navigate = useNavigate()
   console.log(id)
-const {data:singleParcel=[],isPending}= useQuery({
+const {data:singleParcel=[],isPending,refetch}= useQuery({
             queryKey:['single-parcel',id],
             queryFn:async()=>{
                 const res = await axiousSecure.get(`/allparcels/${id}`)
@@ -86,7 +88,16 @@ const result = await stripe.confirmCardPayment(clientSecret, {
 ,
   });
       seterror("✅ Payment successful!");
-      navigate('/dashboard/myparcels')
+      axiousSecure.put(`/allparcels/${id}`)
+        .then(res=>{
+          if(res.data){
+          
+            Swal.fire("sucessful!", "The parcel has been paid.", "success");
+            navigate('/dashboard/myparcels')
+              refetch()
+          }
+        })
+     
 
     }
 

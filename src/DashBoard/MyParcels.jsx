@@ -68,14 +68,7 @@ const onPay=(id)=>{
     }).then((result) => {
       if (result.isConfirmed) {
          navigate(`/dashboard/payment/${id}`)
-        axiousSecure.put(`/allparcels/${id}`)
-        .then(res=>{
-          if(res.data){
-            refetch()
-            Swal.fire("sucessful!", "The parcel has been paid.", "success");
-           
-          }
-        })
+        
         
       }
     });

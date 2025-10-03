@@ -1,11 +1,11 @@
 import {  NavLink, Outlet } from "react-router-dom"
 import ProFast from "../components/ProFast"
-import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf } from "react-icons/fa";
+import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf,  FaMotorcycle } from "react-icons/fa";
 import useUserRole from "../pages/Hooks/useUserRole";
 
 
 const DashBoard = () => {
-  const {role}=useUserRole()
+  const {role, roleLoading}=useUserRole()
   console.log(role)
   return (
     <div className="drawer lg:drawer-open ">
@@ -102,7 +102,25 @@ const DashBoard = () => {
           <FaUserEdit /> Update Profile
         </NavLink>
       </li>
-      <li>
+
+{
+  
+  
+   !roleLoading&&role ==='admin'&&
+  <>
+  <NavLink
+  to="/dashboard/assign"
+  className={({ isActive }) =>
+    `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+      isActive ? "bg-primary text-white" : ""
+    }`
+  }
+>
+  <FaMotorcycle /> Assign Rider
+</NavLink>
+
+
+  <li>
   <NavLink
     to="/dashboard/activeRider"
     className={({ isActive }) =>
@@ -137,10 +155,18 @@ const DashBoard = () => {
       }`
     }
   >
-    <FaHourglassHalf /> MAKE A ADMION
+    <FaHourglassHalf /> MAKE A ADMIN
   </NavLink>
 </li>
-    </ul>
+   
+  
+  
+  </>
+}
+
+
+
+       </ul>
 
       
     </ul>

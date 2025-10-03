@@ -6,10 +6,12 @@ import Swal from "sweetalert2";
 import locationsData from "../../assets/warehouses.json"; // save your JSON as locationsData.json
 import useAxiousSecure from "../Hooks/useAxiousSecure";
 import useAuth from "../Hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const SendAParcel = () => {
   const axiousSecure =useAxiousSecure()
   const {user}=useAuth()
+  const navigate = useNavigate()
   
   const [parcelInfo, setParcelInfo] = useState({
     type: "document",
@@ -139,6 +141,7 @@ const SendAParcel = () => {
           .then((res) => {
             console.log(res.data)
             Swal.fire("Success!", `Parcel saved! Tracking ID: ${trackingId}`, "success");
+            navigate('/dashboard/myparcels')
           })
           .catch((err) => {
             Swal.fire("Error!", "Failed to save parcel", "error");
