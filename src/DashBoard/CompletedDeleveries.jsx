@@ -1,13 +1,15 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import Swal from "sweetalert2";
 import useAuth from "../pages/Hooks/useAuth";
 import useAxiousSecure from "../pages/Hooks/useAxiousSecure";
+import PendingMoney from "./PendingMoney";
 
 export default function CompletedDeliveries() {
   const { user } = useAuth();
   const axiousSecure = useAxiousSecure();
+  const [moneyPending,setMoneyPendong]=useState(0)
 
   // ✅ Fetch completed deliveries
   const { data: completedParcels = [], refetch } = useQuery({
@@ -36,6 +38,11 @@ export default function CompletedDeliveries() {
     });
   }, [completedParcels]);
 
+
+  const moneyEarning=(data)=>{
+  setMoneyPendong(data)
+}
+
 //   🧮 Total Earning
     const totalEarning = useMemo(() => {
     return riderEarnings.reduce((sum, parcel) => sum + parcel.riderEarning, 0);
@@ -50,7 +57,7 @@ export default function CompletedDeliveries() {
 
   Swal.fire({
     title: "Cash Out Confirmation",
-    text: `You are about to cash out ৳${totalEarning}. Do you want to proceed?`,
+    text: `You are about to cash out ৳${totalEarning-moneyPending}. Do you want to proceed?`,
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Yes, Cash Out",
@@ -81,7 +88,24 @@ export default function CompletedDeliveries() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Completed Deliveries</h1>
 
-      <div className="overflow-x-auto  rounded-lg shadow">
+    {/* Total Earnings & Cashout */}
+      {riderEarnings.length > 0 && (
+        <div className="mt-6 flex justify-between items-center  p-4  shadow-inner border-b-4 border-amber-200">
+          <p className="text-lg font-semibold">
+            Total Earnings: <span className="text-green-600">৳{totalEarning-moneyPending}</span>
+          </p>
+          <PendingMoney moneyEarning={moneyEarning}></PendingMoney>
+          {/* <button onClick={handleCashOut} className="btn btn-success">
+            Cash Out
+          </button> */}
+        </div>
+      )}
+
+
+
+
+
+      <div className="overflow-x-auto  rounded-lg shadow my-11">
         <table className="table">
           <thead className="">
             <tr>
@@ -90,6 +114,7 @@ export default function CompletedDeliveries() {
               <th>Receiver District</th>
               <th>Total Cost</th>
               <th>Your Earning</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -102,6 +127,14 @@ export default function CompletedDeliveries() {
                 
                 
                 <td className="font-semibold text-green-600">৳{parcel.riderEarning}</td>
+
+
+                {
+                  parcel.cashedOut?<button className="btn btn-warning">CasheIn</button>:
+                  <button onClick={handleCashOut} className="btn btn-success">
+            Cash Out
+          </button>
+                }
                 
               </tr>
             ))}
@@ -117,17 +150,7 @@ export default function CompletedDeliveries() {
         </table>
       </div>
 
-      {/* Total Earnings & Cashout */}
-      {riderEarnings.length > 0 && (
-        <div className="mt-6 flex justify-between items-center  p-4 rounded-lg shadow-inner">
-          <p className="text-lg font-semibold">
-            Total Earnings: <span className="text-green-600">৳{totalEarning}</span>
-          </p>
-          <button onClick={handleCashOut} className="btn btn-success">
-            Cash Out
-          </button>
-        </div>
-      )}
+      
     </div>
   );
 }
