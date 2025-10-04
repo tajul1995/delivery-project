@@ -73,8 +73,10 @@ const AssignRider = () => {
 
     // PATCH API call
     const res = await axiosSecure.patch(`/allparcels/${parcelId}`, {
-      Delivery_Status: "inTransit",
+      Delivery_Status: "rider_assign",
       assignedRider: rider._id,
+      assignRiderName:rider.name,
+      assignRiderEmail:rider.email
     });
 
     if (res.data.modifiedCount > 0) {

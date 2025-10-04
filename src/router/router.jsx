@@ -18,6 +18,9 @@ import AdminManagement from "../DashBoard/AdminManagement";
 import Forbidden from "../pages/Forbidden/Forbidden";
 import AdminRoute from "../routes/AdminRoute";
 import AssignRider from "../DashBoard/AssignRider";
+import PendingDeleveries from "../DashBoard/PendingDeleveries";
+import RiderRoute from "../routes/RiderRoute";
+import CompletedDeleveries from "../DashBoard/CompletedDeleveries";
 
 
 const router = createBrowserRouter([
@@ -80,6 +83,19 @@ const router = createBrowserRouter([
         path:'payments',
         Component:PaymentsHistory
       },
+      // route for rider
+    {
+      path:'pendingDeliveries',
+      element:<RiderRoute><PendingDeleveries></PendingDeleveries></RiderRoute>
+
+
+    },
+    {
+      path:'completedDeliveries',
+      element:<RiderRoute><CompletedDeleveries></CompletedDeleveries></RiderRoute>
+    },
+
+      // route for admin
       {
         path:'pendingRider',
         

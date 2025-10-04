@@ -1,6 +1,6 @@
 import {  NavLink, Outlet } from "react-router-dom"
 import ProFast from "../components/ProFast"
-import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf,  FaMotorcycle } from "react-icons/fa";
+import { FaHome, FaBox, FaMoneyBillWave, FaSearchLocation, FaUserEdit, FaUserCheck, FaHourglassHalf,  FaMotorcycle, FaBoxOpen, FaCheckCircle } from "react-icons/fa";
 import useUserRole from "../pages/Hooks/useUserRole";
 
 
@@ -102,6 +102,32 @@ const DashBoard = () => {
           <FaUserEdit /> Update Profile
         </NavLink>
       </li>
+    {
+      !roleLoading&&role ==='rider'&&
+      <>
+      <NavLink
+  to="/dashboard/pendingDeliveries"
+  className={({ isActive }) =>
+    `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+      isActive ? "bg-primary text-white" : ""
+    }`
+  }
+>
+  <FaBoxOpen /> Pending Deliveries
+</NavLink>
+<NavLink
+  to="/dashboard/completedDeliveries"
+  className={({ isActive }) =>
+    `flex items-center gap-2 p-2 rounded-md hover:bg-amber-200 hover:text-black ${
+      isActive ? "bg-primary text-white" : ""
+    }`
+  }
+>
+  <FaCheckCircle /> Completed Deliveries
+</NavLink>
+      
+      </>
+    }
 
 {
   
